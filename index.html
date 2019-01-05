@@ -5,6 +5,11 @@
 <div id="player"></div>
 
 <script>
+
+    SETTINGS = {
+        videoId: 'ygRNoieAnzI'
+    };
+
     // 2. This code loads the IFrame Player API code asynchronously.
     var tag = document.createElement('script');
 
@@ -20,7 +25,7 @@
         player = new YT.Player('player', {
             height: '390',
             width: '640',
-            videoId: 'M7lc1UVf-VE',
+            videoId: SETTINGS.videoId,
             playerVars: {
                 autoplay: 1,  // Enforce autoplay
                 controls: 0,  // Disable controls
