@@ -4,11 +4,67 @@
 <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
 <div id="player"></div>
 
+
 <script>
 
     SETTINGS = {
-        videoId: 'ygRNoieAnzI'
+        videoId: 'ygRNoieAnzI',
+        schedule: [
+            {
+                time: 6000,
+                action: function () {
+                    alert('1')
+                }
+            },
+            {
+                time: 10000,
+                action: function () {
+                    alert('1')
+                }
+            }
+        ]
     };
+</script>
+
+<script>
+    var State = function (settings) {
+        var videoId = settings.videoId;
+        var schedule = settings.schedule;
+        var currentTime = 0;
+        var currentEvent = null;
+
+        function nextEvent(attime) {
+            currentTime = attime;
+            for (var i = 0; i !== schedule.length; ++i) {
+                currentEvent = schedule[i];
+                if (!currentEvent.done) {
+                    currentEvent.done = true;
+                    return currentEvent
+                }
+            }
+        }
+
+        // Init state
+        nextEvent();
+
+        return {
+            getVideoId: function () {
+                return videoId
+            },
+            getCurrentTime: function () {
+                return currentTime
+            },
+            getCurrentScheduleEvent: function () {
+                return currentEvent
+            },
+            nextScheduleEvent: nextEvent
+        }
+    };
+</script>
+
+<script>
+    var state = new State(SETTINGS);
+
 
     // 2. This code loads the IFrame Player API code asynchronously.
     var tag = document.createElement('script');
@@ -25,7 +81,7 @@
         player = new YT.Player('player', {
             height: '390',
             width: '640',
-            videoId: SETTINGS.videoId,
+            videoId: state.getVideoId(),
             playerVars: {
                 autoplay: 1,  // Enforce autoplay
                 controls: 0,  // Disable controls
@@ -46,22 +102,31 @@
     // 5. The API calls this function when the player's state changes.
     //    The function indicates that when playing a video (state=1),
     //    the player should play for six seconds and then stop.
-    var done = false;
 
-    function onPlayerStateChange(event) {
+    function onPlayerStateChange(playerEvent) {
         var current_time = player.getCurrentTime();
+        console.info('current_time = ', current_time);
+        console.debug('state.time = ', state.getCurrentTime());
+        var scheduleEvent = state.getCurrentScheduleEvent();
+        if (playerEvent.data === YT.PlayerState.PLAYING) {
+            setTimeout(stopVideo, scheduleEvent.time);
+            console.info('scheduleEvent = ', scheduleEvent);
 
-        console.log('current_time = ', current_time);
-
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-            setTimeout(stopVideo, 6000);
-            done = true;
         }
     }
 
     function stopVideo() {
         player.stopVideo();
+        var current_time = player.getCurrentTime();
+        console.debug('stop at current_time = ', current_time);
+        console.info('stop at current_time = ', current_time + 1);
+        var scheduleEvent = state.getCurrentScheduleEvent();
+        console.debug('before = ', scheduleEvent);
+        state.nextScheduleEvent(current_time);
+        scheduleEvent = state.getCurrentScheduleEvent();
+        console.debug('after = ', scheduleEvent);
     }
+
 </script>
 </body>
 </html>
