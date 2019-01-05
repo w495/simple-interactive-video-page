@@ -21,6 +21,11 @@
             height: '390',
             width: '640',
             videoId: 'M7lc1UVf-VE',
+            playerVars: {
+                autoplay: 1,  // Enforce autoplay
+                controls: 0,  // Disable controls
+                disablekb: 1 // Disable keyboard actions
+            },
             events: {
                 'onReady': onPlayerReady,
                 'onStateChange': onPlayerStateChange
@@ -39,6 +44,10 @@
     var done = false;
 
     function onPlayerStateChange(event) {
+        var current_time = player.getCurrentTime();
+
+        console.log('current_time = ', current_time);
+
         if (event.data == YT.PlayerState.PLAYING && !done) {
             setTimeout(stopVideo, 6000);
             done = true;
