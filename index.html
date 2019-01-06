@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <html>
-
-<body>
-<!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
-<div id="player"></div>
-
-
 <script>
     SETTINGS = {
         videoId: 'ygRNoieAnzI',
@@ -25,6 +19,27 @@
         ]
     };
 </script>
+
+<!--
+    We going to use only top modern technologies.
+    So we use only actual html5-based browsers.
+    For details see:
+        https://stackoverflow.com/questions/1834077/which-browsers-support-script-async-async/1834129#1834129
+-->
+<script async="true" src="https://www.youtube.com/iframe_api"></script>
+<script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
+
+<body>
+
+<section class="workspace">
+    <section class="player-wrapper">
+        <!-- The <iframe> (and video player) will replace this <div> tag. -->
+        <div id="player-container" class="player-container"></div>
+    </section>
+    <section class="task-wrapper">
+    </section>
+</section>
+
 
 <script>
     var State = function (settings) {
@@ -65,65 +80,54 @@
 <script>
     var state = new State(SETTINGS);
 
+    window.onYouTubeIframeAPIReady = function () {
 
-    // 3. This function creates an <iframe> (and YouTube player)
-    //    after the API code downloads.
-    var player = null;
+        // This function creates an <iframe> (and YouTube player) after the API code downloads.
+        // For details see:
+        //      https://developers.google.com/youtube/iframe_api_reference
 
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
+        var player = new YT.Player('player-container', {
             height: '390',
             width: '640',
             videoId: state.getVideoId(),
             playerVars: {
-                autoplay: 1,  // Enforce autoplay
-                controls: 0,  // Disable controls
-                disablekb: 1 // Disable keyboard actions
+                autoplay: 1,   // Enforce autoplay
+                controls: 0,   // Disable controls
+                disablekb: 1    // Disable keyboard actions
             },
             events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
+                'onStateChange': function (playerEvent) {
+                    var scheduleEvent = state.getCurrentScheduleEvent();
+                    if (playerEvent.data === YT.PlayerState.PLAYING) {
+                        setTimeout(
+                            function () {
+                                stopVideo(playerEvent);
+                            },
+                            scheduleEvent.time
+                        );
+                    }
+                }
             }
         });
-    }
 
-    // 4. The API will call this function when the video player is ready.
-    function onPlayerReady(event) {
-        event.target.playVideo();
-    }
-
-    // 5. The API calls this function when the player's state changes.
-    //    The function indicates that when playing a video (state=1),
-    //    the player should play for six seconds and then stop.
-
-    function onPlayerStateChange(playerEvent) {
-        var current_time = player.getCurrentTime();
-        console.info('current_time = ', current_time);
-        console.debug('state.time = ', state.getCurrentTime());
-        var scheduleEvent = state.getCurrentScheduleEvent();
-        if (playerEvent.data === YT.PlayerState.PLAYING) {
-            setTimeout(stopVideo, scheduleEvent.time);
-            console.info('scheduleEvent = ', scheduleEvent);
-
+        function stopVideo(playerEvent) {
+            player.stopVideo();
+            var current_time = player.getCurrentTime();
+            console.debug('stop at current_time = ', current_time);
+            var scheduleEvent = state.getCurrentScheduleEvent();
+            console.debug('before = ', scheduleEvent);
+            state.nextScheduleEvent(current_time);
+            scheduleEvent = state.getCurrentScheduleEvent();
+            console.debug('after = ', scheduleEvent);
         }
-    }
 
-    function stopVideo() {
-        player.stopVideo();
-        var current_time = player.getCurrentTime();
-        console.debug('stop at current_time = ', current_time);
-        console.info('stop at current_time = ', current_time + 1);
-        var scheduleEvent = state.getCurrentScheduleEvent();
-        console.debug('before = ', scheduleEvent);
-        state.nextScheduleEvent(current_time);
-        scheduleEvent = state.getCurrentScheduleEvent();
-        console.debug('after = ', scheduleEvent);
-    }
+    };
+    
+    jQuery(function () {
+        console.log('jquery');
+    });
 
 </script>
-
-<script async="true" src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
-<script async="true" src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
