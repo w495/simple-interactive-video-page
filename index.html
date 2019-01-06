@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <script>
     SETTINGS = {
         videoId: 'ygRNoieAnzI',
+        height: '480',
+        width: '100%',
         schedule: [
             {
                 time: 6000,
@@ -19,6 +21,11 @@
         ]
     };
 </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
 <!--
     We going to use only top modern technologies.
@@ -27,23 +34,51 @@
         https://stackoverflow.com/questions/1834077/which-browsers-support-script-async-async/1834129#1834129
 -->
 <script async="true" src="https://www.youtube.com/iframe_api"></script>
-<script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
 
 <body>
 
-<section class="workspace">
-    <section class="player-wrapper">
-        <!-- The <iframe> (and video player) will replace this <div> tag. -->
-        <div id="player-container" class="player-container"></div>
-    </section>
-    <section class="task-wrapper">
-    </section>
-</section>
+
+<main class="container">
+    <div class="row">
+        <div class="col-md-6 player-wrapper">
+            <!-- The <iframe> (and video player) will replace this <div> tag. -->
+            <div id="player-container" class="player-container"></div>
+        </div>
+        <div class="col-md-6 task-wrapper">
+            <div class="card">
+                <h5 class="card-header">Task # 1</h5>
+
+                <div class="card-body">
+
+                    <p class="card-text">
+                        Task 2. Number the sections of the talk in order.
+                        a. The explanation of the modified state;
+                        b. Secondary effect and some ways to apply the tech;
+                        c. «Cyborg foundation»;
+                        d. The description of the diagnosis;
+                        e. The extension of abilities due to sensors;
+                        f. The description of the device plus its operation;
+                        g. Dramatic changes in perception of lots of things.
+
+                    </p>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
 
 
 <script>
     var State = function (settings) {
         var videoId = settings.videoId;
+        var height = settings.height;
+        var width = settings.width;
         var schedule = settings.schedule;
         var currentTime = 0;
         var currentEvent = null;
@@ -72,11 +107,19 @@
             getCurrentScheduleEvent: function () {
                 return currentEvent
             },
+            getHeight: function () {
+                return String(height)
+            },
+            getWidth: function () {
+                return String(width)
+            },
+
             nextScheduleEvent: nextEvent
         }
     };
 </script>
 
+<script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
 <script>
     var state = new State(SETTINGS);
 
@@ -87,8 +130,8 @@
         //      https://developers.google.com/youtube/iframe_api_reference
 
         var player = new YT.Player('player-container', {
-            height: '390',
-            width: '640',
+            height: state.getHeight(),
+            width: state.getWidth(),
             videoId: state.getVideoId(),
             playerVars: {
                 autoplay: 1,   // Enforce autoplay
@@ -122,7 +165,7 @@
         }
 
     };
-    
+
     jQuery(function () {
         console.log('jquery');
     });
