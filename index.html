@@ -3,7 +3,7 @@
 <script>
     SETTINGS = {
         videoId: 'ygRNoieAnzI',
-        height: '480',
+        height: '100%',
         width: '100%',
         schedule: [
             {
@@ -26,6 +26,67 @@
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
       integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<style>
+
+    .player-wrapper{
+        vertical-align: middle;
+        height: 100%;
+        min-height: 20rem;
+    }
+
+
+    .material-switch > input[type="checkbox"] {
+        display: none;
+    }
+
+    .material-switch > label {
+        cursor: pointer;
+        height: 0px;
+        position: relative;
+        width: 40px;
+    }
+
+    .material-switch > label::before {
+        background: rgb(0, 0, 0);
+        box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        content: '';
+        height: 16px;
+        margin-top: -8px;
+        position: absolute;
+        opacity: 0.3;
+        transition: all 0.4s ease-in-out;
+        width: 40px;
+    }
+
+    .material-switch > label::after {
+        background: rgb(255, 255, 255);
+        border-radius: 16px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+        content: '';
+        height: 24px;
+        left: -4px;
+        margin-top: -8px;
+        position: absolute;
+        top: -4px;
+        transition: all 0.3s ease-in-out;
+        width: 24px;
+    }
+
+    .material-switch > input[type="checkbox"]:checked + label::before {
+        background: inherit;
+        opacity: 0.5;
+    }
+
+    .material-switch > input[type="checkbox"]:checked + label::after {
+        background: inherit;
+        left: 20px;
+    }
+</style>
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
 
 <!--
     We going to use only top modern technologies.
@@ -36,40 +97,98 @@
 <script async="true" src="https://www.youtube.com/iframe_api"></script>
 
 <body>
+<nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
+  <span class="navbar-brand" href="#">
+    Interactive Multimedia Study
+  </span>
+</nav>
+<p></p>
+<main class="container-fluid">
 
-
-<main class="container">
     <div class="row">
-        <div class="col-md-6 player-wrapper">
+        <aside class="col-md-6">
+            <div class="card player-wrapper bg-dark">
             <!-- The <iframe> (and video player) will replace this <div> tag. -->
             <div id="player-container" class="player-container"></div>
-        </div>
-        <div class="col-md-6 task-wrapper">
-            <div class="card">
-                <h5 class="card-header">Task # 1</h5>
-
-                <div class="card-body">
-
-                    <p class="card-text">
-                        Task 2. Number the sections of the talk in order.
-                        a. The explanation of the modified state;
-                        b. Secondary effect and some ways to apply the tech;
-                        c. «Cyborg foundation»;
-                        d. The description of the diagnosis;
-                        e. The extension of abilities due to sensors;
-                        f. The description of the device plus its operation;
-                        g. Dramatic changes in perception of lots of things.
-
-                    </p>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-
+            </div>
+        </aside>
+        <section class="col-md-6 task-wrapper">
+            <div class="card task">
+                <div class="card-header">
+                    True/False
                 </div>
+                <!-- List group -->
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class=" material-switch pull-left">
+                            <input id="switch-1" name="someSwitchOption001" type="checkbox"/>
+                            <label for="switch-1" class="badge-warning"></label>
+                        </span>
+                        <span>
+                            The rare vision condition was acquired after the car accident.
+                        </span>
+
+                    </li>
+                    <li class="list-group-item">
+                        <span class=" material-switch pull-left">
+                            <input id="switch-2" name="someSwitchOption002" type="checkbox"/>
+                            <label for="switch-2" class="badge-warning"></label>
+                        </span>
+                        <span>
+                            Since the age of 21 instead of seeing colours he began hearing them
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class=" material-switch pull-left">
+                            <input id="switch-3" name="someSwitchOption002" type="checkbox"/>
+                            <label for="switch-3" class="badge-warning"></label>
+                        </span>
+                        <span>
+                            The speaker has been hearing colours all the time since 2005.
+                        </span>
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class=" material-switch pull-left">
+                            <input id="switch-4" name="someSwitchOption002" type="checkbox"/>
+                            <label for="switch-4" class="badge-warning"></label>
+                        </span>
+                        <span>
+                            At one moment his new perception became the feeling.
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class=" material-switch pull-left">
+                            <input id="switch-5" name="someSwitchOption002" type="checkbox"/>
+                            <label for="switch-5" class="badge-warning"></label>
+                        </span>
+                        <span>
+                            The speaker realizes that the cybornetique device will never become the part of his body
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class=" material-switch pull-left">
+                            <input id="switch-6" name="someSwitchOption002" type="checkbox"/>
+                            <label for="switch-6" class="badge-warning"></label>
+                        </span>
+                        <span>
+                            Due to his device the speaker can easily note similar features in absolutely different objects and relate those objects that seemed uncomprable.
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class=" material-switch pull-left">
+                            <input id="switch-7" name="someSwitchOption002" type="checkbox"/>
+                            <label for="switch-7" class="badge-warning"></label>
+                        </span>
+                        <span>
+                            The speaker can effortlessly transform sounds into colour.
+                        </span>
+                    </li>
+                </ul>
+                <button type="button" class="btn btn-lg btn-outline-primary">Next</button>
             </div>
 
-        </div>
+        </section>
     </div>
 </main>
 
@@ -171,6 +290,15 @@
     });
 
 </script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>
