@@ -1,5 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>
+<!--
+    We going to use only top modern technologies.
+    So we use only actual html5-based browsers.
+    For details see:
+        https://stackoverflow.com/questions/1834077/which-browsers-support-script-async-async/1834129#1834129
+-->
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
 <script>
     SETTINGS = {
         videoId: 'ygRNoieAnzI',
@@ -7,35 +21,40 @@
         width: '100%',
         schedule: [
             {
-                time: 6000,
-                action: function () {
-                    alert('1')
-                }
-            },
-            {
-                time: 10000,
-                action: function () {
-                    alert('1')
+                time: 1000,
+                task: {
+                    type: 'multiple-true-false',
+                    title: 'Check True',
+                    variants: [
+                        {
+                            text: "The rare vision condition was acquired after the car accident.",
+                            answer: true
+                        },
+                        {
+                            text: "Since the age of 21 instead of seeing colours he began hearing them",
+                            answer: false
+                        }
+                    ]
+
                 }
             }
         ]
     };
 </script>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <style>
-
-    .player-wrapper{
+    .player-wrapper {
         vertical-align: middle;
         height: 100%;
         min-height: 20rem;
     }
 
-
-    .material-switch > input[type="checkbox"] {
+    .material-switch_input {
         display: none;
     }
 
@@ -82,19 +101,35 @@
         background: inherit;
         left: 20px;
     }
+
+    .wrong-not-chosen {
+        color: red;
+    }
+
+    .write-not-chosen {
+        color: green;
+    }
+
+    .wrong-chosen {
+        color: red;
+    }
+
+    .write-chosen {
+        color: green;
+    }
+
+    .global-spiner {
+      color: gainsboro;
+    }
+    .global-area {
+        display: none;
+    }
+
+    .global-spiner {
+        vertical-align: middle;
+    }
 </style>
 
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-
-
-<!--
-    We going to use only top modern technologies.
-    So we use only actual html5-based browsers.
-    For details see:
-        https://stackoverflow.com/questions/1834077/which-browsers-support-script-async-async/1834129#1834129
--->
-<script async="true" src="https://www.youtube.com/iframe_api"></script>
 
 <body>
 <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
@@ -103,89 +138,59 @@
   </span>
 </nav>
 <p></p>
+
+
 <main class="container-fluid">
 
     <div class="row">
         <aside class="col-md-6">
             <div class="card player-wrapper bg-dark">
-            <!-- The <iframe> (and video player) will replace this <div> tag. -->
-            <div id="player-container" class="player-container"></div>
+                <!-- The <iframe> (and video player) will replace this <div> tag. -->
+                <div id="player-container" class="player-container"></div>
             </div>
         </aside>
         <section class="col-md-6 task-wrapper">
-            <div class="card task">
-                <div class="card-header">
-                    True/False
+            <div class="global-spiner-wrapper d-flex justify-content-center">
+                <div class="global-spiner spinner-grow" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
                 </div>
+                <div class="global-spiner spinner-grow" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="global-spiner spinner-grow" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div class="card task global-area">
+                <div class="card-header task-header" data-bind="text: taskTitle">&nbsp;</div>
                 <!-- List group -->
-                <ul class="list-group">
+                <ul class="list-group" data-bind="foreach: taskVariants">
                     <li class="list-group-item">
-                        <span class=" material-switch pull-left">
-                            <input id="switch-1" name="someSwitchOption001" type="checkbox"/>
-                            <label for="switch-1" class="badge-warning"></label>
-                        </span>
-                        <span>
-                            The rare vision condition was acquired after the car accident.
-                        </span>
-
-                    </li>
-                    <li class="list-group-item">
-                        <span class=" material-switch pull-left">
-                            <input id="switch-2" name="someSwitchOption002" type="checkbox"/>
-                            <label for="switch-2" class="badge-warning"></label>
-                        </span>
-                        <span>
-                            Since the age of 21 instead of seeing colours he began hearing them
-                        </span>
-                    </li>
-                    <li class="list-group-item">
-                        <span class=" material-switch pull-left">
-                            <input id="switch-3" name="someSwitchOption002" type="checkbox"/>
-                            <label for="switch-3" class="badge-warning"></label>
-                        </span>
-                        <span>
-                            The speaker has been hearing colours all the time since 2005.
-                        </span>
-                    </li>
-
-                    <li class="list-group-item">
-                        <span class=" material-switch pull-left">
-                            <input id="switch-4" name="someSwitchOption002" type="checkbox"/>
-                            <label for="switch-4" class="badge-warning"></label>
-                        </span>
-                        <span>
-                            At one moment his new perception became the feeling.
-                        </span>
-                    </li>
-                    <li class="list-group-item">
-                        <span class=" material-switch pull-left">
-                            <input id="switch-5" name="someSwitchOption002" type="checkbox"/>
-                            <label for="switch-5" class="badge-warning"></label>
-                        </span>
-                        <span>
-                            The speaker realizes that the cybornetique device will never become the part of his body
-                        </span>
-                    </li>
-                    <li class="list-group-item">
-                        <span class=" material-switch pull-left">
-                            <input id="switch-6" name="someSwitchOption002" type="checkbox"/>
-                            <label for="switch-6" class="badge-warning"></label>
-                        </span>
-                        <span>
-                            Due to his device the speaker can easily note similar features in absolutely different objects and relate those objects that seemed uncomprable.
-                        </span>
-                    </li>
-                    <li class="list-group-item">
-                        <span class=" material-switch pull-left">
-                            <input id="switch-7" name="someSwitchOption002" type="checkbox"/>
-                            <label for="switch-7" class="badge-warning"></label>
-                        </span>
-                        <span>
-                            The speaker can effortlessly transform sounds into colour.
-                        </span>
+                        <div data-bind="attr: {class: status}">
+                            <!--<nav class="btn-group" role="group" aria-label="Basic example">-->
+                            <!--<button type="button" class="btn-true btn btn-lg btn-outline-success">True</button>-->
+                            <!--<button type="button" class="btn-false btn btn-lg btn-outline-warning">False</button>-->
+                            <!--</nav>-->
+                            <span class="material-switch pull-left">
+                                <span>False</span>
+                                <input data-bind="checkedValue: $data,
+                                                  checked: $root.chosenVariants,
+                                                  attr: { id: index, name: index }"
+                                       class="material-switch_input"
+                                       type="checkbox"/>
+                                <label data-bind="attr: { 'for': index }"
+                                       class="material-switch_label badge-warning"
+                                       title="True or false"></label>
+                                <span>True</span>
+                            </span>
+                            <span data-bind="text: text">&nbsp;</span>
+                        </div>
                     </li>
                 </ul>
-                <button type="button" class="btn btn-lg btn-outline-primary">Next</button>
+                <nav class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" data-bind="click: check" class="btn btn-lg btn-outline-primary">Check</button>
+                    <button type="button" class="btn btn-lg btn-outline-primary">Next</button>
+                </nav>
             </div>
 
         </section>
@@ -238,17 +243,100 @@
     };
 </script>
 
-<script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    var taskModel = {
+        taskTitle: ko.observable(''),
+        taskVariants: ko.observableArray(),
+        chosenVariants: ko.observableArray(),
+        check: function () {
+            var chosenVariants = this.chosenVariants();
+            var taskVariants = this.taskVariants();
+            // Not Chosen
+            for (var i = 0; i !== taskVariants.length; ++i) {
+                var taskItem = taskVariants[i];
+                if (taskItem.answer) {
+                    taskItem.status('wrong-not-chosen');
+                }
+                else {
+                    taskItem.status('write-not-chosen');
+                }
+            }
+            // Chosen
+            for (var j = 0; j !== chosenVariants.length; ++j) {
+                var chosenItem = chosenVariants[j];
+                var index = chosenItem.index;
+                if (chosenItem.answer) {
+                    taskVariants[index].status('write-chosen');
+                }
+                else {
+                    taskVariants[index].status('wrong-chosen');
+                }
+            }
+
+        }
+
+    };
+
+    // Activates knockout.js
+    ko.applyBindings(taskModel);
+</script>
+
 <script>
     var state = new State(SETTINGS);
 
+
+    function stopVideo(playerEvent, scheduleEvent) {
+        console.log('playerEvent = ', playerEvent.target);
+
+        var player = playerEvent.target;
+
+        player.stopVideo();
+        var current_time = player.getCurrentTime();
+        console.debug('stop at current_time = ', current_time);
+
+        var task = scheduleEvent.task;
+
+        taskModel.taskTitle(
+            task.title
+        );
+
+        switch (task.type) {
+            case 'multiple-true-false':
+                var variants = task.variants;
+                for (var i = 0; i !== variants.length; ++i) {
+                    var item = variants[i];
+                    item.index = i;
+                    item.status = ko.observable('null');
+                }
+                taskModel.taskVariants(
+                    variants
+                );
+                break;
+        }
+
+
+        console.debug('before = ', scheduleEvent);
+        state.nextScheduleEvent(current_time);
+        scheduleEvent = state.getCurrentScheduleEvent();
+        console.debug('after = ', scheduleEvent);
+    }
+
+
     window.onYouTubeIframeAPIReady = function () {
+
 
         // This function creates an <iframe> (and YouTube player) after the API code downloads.
         // For details see:
         //      https://developers.google.com/youtube/iframe_api_reference
 
-        var player = new YT.Player('player-container', {
+        jQuery(function () {
+            console.log('jquery');
+
+
+        });
+
+
+        new YT.Player('player-container', {
             height: state.getHeight(),
             width: state.getWidth(),
             videoId: state.getVideoId(),
@@ -259,11 +347,13 @@
             },
             events: {
                 'onStateChange': function (playerEvent) {
+                    $('.global-spiner').hide();
+                    $('.global-area').show();
                     var scheduleEvent = state.getCurrentScheduleEvent();
                     if (playerEvent.data === YT.PlayerState.PLAYING) {
                         setTimeout(
                             function () {
-                                stopVideo(playerEvent);
+                                stopVideo(playerEvent, scheduleEvent);
                             },
                             scheduleEvent.time
                         );
@@ -271,34 +361,10 @@
                 }
             }
         });
-
-        function stopVideo(playerEvent) {
-            player.stopVideo();
-            var current_time = player.getCurrentTime();
-            console.debug('stop at current_time = ', current_time);
-            var scheduleEvent = state.getCurrentScheduleEvent();
-            console.debug('before = ', scheduleEvent);
-            state.nextScheduleEvent(current_time);
-            scheduleEvent = state.getCurrentScheduleEvent();
-            console.debug('after = ', scheduleEvent);
-        }
-
     };
 
-    jQuery(function () {
-        console.log('jquery');
-    });
 
 </script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
 
 </body>
 </html>
