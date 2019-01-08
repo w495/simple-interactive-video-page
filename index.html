@@ -54,15 +54,23 @@
         min-height: 20rem;
     }
 
-    .material-switch_input {
+
+
+    .material-switch > input {
         display: none;
     }
+
+    .material-switch > caption {
+        vertical-align: middle;
+    }
+
 
     .material-switch > label {
         cursor: pointer;
         height: 0px;
         position: relative;
         width: 40px;
+        vertical-align: middle;
     }
 
     .material-switch > label::before {
@@ -119,8 +127,9 @@
     }
 
     .global-spiner {
-      color: gainsboro;
+        color: gainsboro;
     }
+
     .global-area {
         display: none;
     }
@@ -128,6 +137,15 @@
     .global-spiner {
         vertical-align: middle;
     }
+
+
+
+    .task-line-text {
+        display: inline-block;
+        vertical-align: middle;
+
+    }
+
 </style>
 
 
@@ -143,13 +161,13 @@
 <main class="container-fluid">
 
     <div class="row">
-        <aside class="col-md-6">
+        <aside class="col-lg-6">
             <div class="card player-wrapper bg-dark">
                 <!-- The <iframe> (and video player) will replace this <div> tag. -->
                 <div id="player-container" class="player-container"></div>
             </div>
         </aside>
-        <section class="col-md-6 task-wrapper">
+        <section class="col-lg-6 task-wrapper">
             <div class="global-spiner-wrapper d-flex justify-content-center">
                 <div class="global-spiner spinner-grow" style="width: 10rem; height: 10rem;" role="status">
                     <span class="sr-only">Loading...</span>
@@ -165,25 +183,22 @@
                 <div class="card-header task-header" data-bind="text: taskTitle">&nbsp;</div>
                 <!-- List group -->
                 <ul class="list-group" data-bind="foreach: taskVariants">
-                    <li class="list-group-item">
+                    <li class="task-line list-group-item">
                         <div data-bind="attr: {class: status}">
-                            <!--<nav class="btn-group" role="group" aria-label="Basic example">-->
-                            <!--<button type="button" class="btn-true btn btn-lg btn-outline-success">True</button>-->
-                            <!--<button type="button" class="btn-false btn btn-lg btn-outline-warning">False</button>-->
-                            <!--</nav>-->
-                            <span class="material-switch pull-left">
-                                <span>False</span>
+
+                            <span class="material-switch col-sm-3 pull-left">
+                                <span class="caption badge badge-pill badge-danger">False</span>
                                 <input data-bind="checkedValue: $data,
                                                   checked: $root.chosenVariants,
                                                   attr: { id: index, name: index }"
                                        class="material-switch_input"
                                        type="checkbox"/>
                                 <label data-bind="attr: { 'for': index }"
-                                       class="material-switch_label badge-warning"
+                                       class="badge-warning"
                                        title="True or false"></label>
-                                <span>True</span>
+                                <span class="caption badge badge-pill badge-success">True</span>
                             </span>
-                            <span data-bind="text: text">&nbsp;</span>
+                            <span class="task-line-text col-sm-9" data-bind="text: text">&nbsp;</span>
                         </div>
                     </li>
                 </ul>
@@ -192,7 +207,67 @@
                     <button type="button" class="btn btn-lg btn-outline-primary">Next</button>
                 </nav>
             </div>
+            <br/>
+            <div class="card task global-area">
+                <div class="card-header task-header" data-bind="text: taskTitle">&nbsp;</div>
+                <!-- List group -->
+                <ul class="list-group" data-bind="foreach: taskVariants">
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" />
+                            <span  class="form-check-label" data-bind="text: text">0.00</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <br/>
+            <div class="card task global-area">
+                <div class="card-header task-header">Match the notion with their definitions</div>
+                <ul class="list-group" data-bind="foreach: taskVariants">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">
+                                <select class="form-control rounded-pill"  id="match the notion-x">
+                                  <option>achomatopsia</option>
+                                  <option>cyborg</option>
+                                </select>
+                            </div>
+                            <label class="col" for="match the notion-x" data-bind="text: text">Example select</label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <br/>
+            <div class="card task global-area">
+                <div class="card-header task-header">Complete the sentences</div>
+                <ul class="list-group" data-bind="foreach: taskVariants">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <label class="col" for="complete-the-sentences-x" data-bind="text: text"></label>
+                            <div class="col">
+                                <input id="complete-the-sentences-x" class="form-control rounded-pill" type="text" />
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <br/>
+            <div class="card task global-area">
+                <div class="card-header task-header">Fill gaps</div>
+                <div class="card-body">
+                    Build responsive, mobile-first
+                    <input type="text" /> on the web with the world’s
+                    most popular front-end component library.
 
+                    Bootstrap is an open <input type="text" /> toolkit for developing with HTML, CSS,
+                    and JS. Quickly prototype your ideas or build your <input type="text" />
+                    app with our Sass variables and mixins,
+                    responsive grid system, <input type="text" /> prebuilt components,
+                    and powerful plugins built on jQuery.
+
+                </div>
+            </div>
+            <br/>
         </section>
     </div>
 </main>
